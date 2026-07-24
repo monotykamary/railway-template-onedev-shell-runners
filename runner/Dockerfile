@@ -1,4 +1,4 @@
-FROM 1dev/agent:16.3.0
+FROM 1dev/agent@sha256:9fa0293bf046b95be2e530d341a4f4664b83489b4096c65d784f6d7306977fc8
 
 USER root
 ENV DEBIAN_FRONTEND=noninteractive

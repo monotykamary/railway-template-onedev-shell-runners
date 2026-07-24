@@ -74,7 +74,7 @@ async function ensureExecutor() {
   console.log(`Configured Remote Shell Executor: ${EXECUTOR_NAME}`);
 }
 async function activeBuilds() {
-  const query = '"Status" is "Waiting" or "Status" is "Pending" or "Status" is "Running"';
+  const query = 'waiting or pending or running';
   return oneDev(`/~api/builds?query=${encodeURIComponent(query)}&offset=0&count=100`);
 }
 async function setReplicas(count) {
