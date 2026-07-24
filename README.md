@@ -65,26 +65,40 @@ OneDev administrator and Railway project credentials exist only on the autoscale
 ## Example build specification
 
 ```yaml
-version: 38
+version: 52
 jobs:
-  - name: test
-    steps:
-      - !CheckoutStep
-        name: Checkout
-        cloneCredential: !DefaultCredential {}
-        withLfs: false
-        withSubmodules: false
-        condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
-      - !CommandStep
-        name: Test
-        runInContainer: false
-        interpreter: !DefaultInterpreter
-          commands: |
-            node --version
-            python3 --version
-            ruby --version
-        useTTY: false
-        condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
+- name: test
+  steps:
+  - type: CheckoutStep
+    name: checkout
+    cloneCredential:
+      type: DefaultCredential
+    withLfs: false
+    withSubmodules: false
+    condition: SUCCESSFUL
+    optional: false
+  - type: CommandStep
+    name: test
+    runInContainer: false
+    interpreter:
+      type: PosixInterpreter
+      shell: sh
+      commands: |
+        node --version
+        python3 --version
+        ruby --version
+    runAs: 0:0
+    useTTY: false
+    condition: SUCCESSFUL
+    optional: false
+  triggers:
+  - type: BranchUpdateTrigger
+    branches: main
+    userMatch: anyone
+  retryCondition: never
+  maxRetries: 0
+  retryDelay: 30
+  timeout: 600
 ```
 
 ## Security model

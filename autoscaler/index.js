@@ -26,6 +26,7 @@ let ready = false;
 let lastError = null;
 let lastApplied = null;
 let idleSince = null;
+let scalingWarningShown = false;
 let reconcileQueue = Promise.resolve();
 
 function required(name) {
@@ -79,7 +80,10 @@ async function activeBuilds() {
 }
 async function setReplicas(count) {
   if (!RAILWAY_TOKEN) {
-    if (lastApplied === null) console.warn('RAILWAY_TOKEN is not set; automatic replica scaling is disabled');
+    if (!scalingWarningShown) {
+      console.warn('RAILWAY_TOKEN is not set; automatic replica scaling is disabled');
+      scalingWarningShown = true;
+    }
     return;
   }
   if (count === lastApplied) return;
