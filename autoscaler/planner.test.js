@@ -1,12 +1,18 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { desiredReplicas, selectReusableToken } from './planner.js';
+import { desiredReplicas, regionalReplicaInput, selectReusableToken } from './planner.js';
 
 test('desired replicas follows demand within limits', () => {
   assert.equal(desiredReplicas(0, 1, 5), 1);
   assert.equal(desiredReplicas(3, 1, 5), 3);
   assert.equal(desiredReplicas(9, 1, 5), 5);
   assert.equal(desiredReplicas(0, 1, 5), 1);
+});
+
+test('regional replica input targets the active Railway region', () => {
+  assert.deepEqual(regionalReplicaInput('asia-southeast1-eqsg3a', 3), {
+    multiRegionConfig: { 'asia-southeast1-eqsg3a': { numReplicas: 3 } },
+  });
 });
 
 test('offline agent token is reused', () => {

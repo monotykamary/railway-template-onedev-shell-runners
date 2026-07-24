@@ -3,6 +3,12 @@ export function desiredReplicas(activeBuilds, minReplicas, maxReplicas) {
   return Math.min(maxReplicas, Math.max(minReplicas, activeBuilds));
 }
 
+export function regionalReplicaInput(region, count) {
+  if (!region) throw new Error('region is required');
+  if (!Number.isInteger(count) || count < 1) throw new Error('count must be at least 1');
+  return { multiRegionConfig: { [region]: { numReplicas: count } } };
+}
+
 export function selectReusableToken({ agents, tokens, leases, now }) {
   const leased = new Set(Object.values(leases).filter((lease) => lease.expiresAt > now).map((lease) => lease.tokenId));
   const attached = new Set(agents.map((agent) => agent.tokenId));

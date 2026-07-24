@@ -1,7 +1,7 @@
 import http from 'node:http';
 import crypto from 'node:crypto';
 import fs from 'node:fs';
-import { desiredReplicas, selectReusableToken } from './planner.js';
+import { desiredReplicas, regionalReplicaInput, selectReusableToken } from './planner.js';
 
 const PORT = Number(process.env.PORT || 3000);
 const ONEDEV_URL = required('ONEDEV_URL').replace(/\/$/, '');
@@ -99,7 +99,7 @@ async function setReplicas(count) {
     headers: { 'content-type': 'application/json', 'project-access-token': RAILWAY_TOKEN },
     body: JSON.stringify({
       query: 'mutation UpdateReplicas($serviceId: String!, $environmentId: String!, $input: ServiceInstanceUpdateInput!) { serviceInstanceUpdate(serviceId: $serviceId, environmentId: $environmentId, input: $input) }',
-      variables: { serviceId: RUNNER_SERVICE_ID, environmentId: ENVIRONMENT_ID, input: { multiRegionConfig: { [RUNNER_REGION]: { numReplicas: count } } } },
+      variables: { serviceId: RUNNER_SERVICE_ID, environmentId: ENVIRONMENT_ID, input: regionalReplicaInput(RUNNER_REGION, count) },
     }),
   });
   const data = await response.json();
