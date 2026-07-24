@@ -11,8 +11,9 @@ const ONEDEV_ADMIN_PASSWORD = required('ONEDEV_ADMIN_PASSWORD');
 const RUNNER_LEASE_SECRET = required('RUNNER_LEASE_SECRET');
 const RAILWAY_TOKEN = process.env.RAILWAY_TOKEN || null;
 const RUNNER_SERVICE_ID = required('RAILWAY_RUNNER_SERVICE_ID');
+const RUNNER_REGION = process.env.RUNNER_REGION || required('RAILWAY_REPLICA_REGION');
 const ENVIRONMENT_ID = required('RAILWAY_ENVIRONMENT_ID');
-const MIN_REPLICAS = integer('MIN_REPLICAS', 1);
+const MIN_REPLICAS = positiveInteger('MIN_REPLICAS', 1);
 const MAX_REPLICAS = integer('MAX_REPLICAS', 5);
 const POLL_INTERVAL_MS = integer('POLL_INTERVAL_MS', 5000);
 const SCALE_DOWN_DELAY_MS = integer('SCALE_DOWN_DELAY_MS', 60000);
@@ -39,6 +40,12 @@ function integer(name, fallback) {
   if (!Number.isInteger(value) || value < 0) throw new Error(`${name} must be a non-negative integer`);
   return value;
 }
+function positiveInteger(name, fallback) {
+  const value = integer(name, fallback);
+  if (value < 1) throw new Error(`${name} must be at least 1 on Railway`);
+  return value;
+}
+
 function loadState() {
   try { return JSON.parse(fs.readFileSync(STATE_FILE, 'utf8')); }
   catch { return { leases: {} }; }
@@ -92,7 +99,7 @@ async function setReplicas(count) {
     headers: { 'content-type': 'application/json', 'project-access-token': RAILWAY_TOKEN },
     body: JSON.stringify({
       query: 'mutation UpdateReplicas($serviceId: String!, $environmentId: String!, $input: ServiceInstanceUpdateInput!) { serviceInstanceUpdate(serviceId: $serviceId, environmentId: $environmentId, input: $input) }',
-      variables: { serviceId: RUNNER_SERVICE_ID, environmentId: ENVIRONMENT_ID, input: { numReplicas: count } },
+      variables: { serviceId: RUNNER_SERVICE_ID, environmentId: ENVIRONMENT_ID, input: { multiRegionConfig: { [RUNNER_REGION]: { numReplicas: count } } } },
     }),
   });
   const data = await response.json();

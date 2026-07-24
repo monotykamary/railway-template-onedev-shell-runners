@@ -54,7 +54,7 @@ To enable queue-driven scaling:
 4. Set it as `RAILWAY_TOKEN` on the **Runner Autoscaler** service.
 5. Set `MIN_REPLICAS`, `MAX_REPLICAS`, and `SCALE_DOWN_DELAY_MS` as desired.
 
-A project token is preferred over an account token because it is restricted to one project and environment. Setting `MIN_REPLICAS=0` enables scale-to-zero.
+A project token is preferred over an account token because it is restricted to one project and environment. Railway currently requires at least one replica, so `MIN_REPLICAS` must remain `1` or greater.
 
 ## How token leasing works
 

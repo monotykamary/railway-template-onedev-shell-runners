@@ -3,9 +3,9 @@ import assert from 'node:assert/strict';
 import { desiredReplicas, selectReusableToken } from './planner.js';
 
 test('desired replicas follows demand within limits', () => {
-  assert.equal(desiredReplicas(0, 0, 5), 0);
-  assert.equal(desiredReplicas(3, 0, 5), 3);
-  assert.equal(desiredReplicas(9, 0, 5), 5);
+  assert.equal(desiredReplicas(0, 1, 5), 1);
+  assert.equal(desiredReplicas(3, 1, 5), 3);
+  assert.equal(desiredReplicas(9, 1, 5), 5);
   assert.equal(desiredReplicas(0, 1, 5), 1);
 });
 

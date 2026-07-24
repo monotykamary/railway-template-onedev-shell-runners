@@ -6,7 +6,7 @@ This template combines OneDev's integrated Git, pull request, issue, package, an
 
 OneDev stores relational metadata in PostgreSQL and repositories, attachments, artifacts, and server state under `/opt/onedev`. The bundled agent connects over Railway's private network and executes jobs through OneDev's Remote Shell Executor. A separate autoscaler configures the executor, manages unique agent-token leases, and monitors waiting, pending, and running builds.
 
-The default deployment keeps one runner available without requiring Railway API credentials. Users can add an environment-scoped Railway project token to enable queue-based scaling and scale-to-zero.
+The default deployment keeps one runner available without requiring Railway API credentials. Users can add an environment-scoped Railway project token to enable queue-based scaling and cooldown scaling.
 
 ## Common Use Cases
 
