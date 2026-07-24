@@ -4,7 +4,7 @@ set -euo pipefail
 : "${AUTOSCALER_URL:?AUTOSCALER_URL is required}"
 : "${RUNNER_LEASE_SECRET:?RUNNER_LEASE_SECRET is required}"
 
-lease_id="${RAILWAY_REPLICA_ID:-${HOSTNAME:-runner-$$}}"
+lease_id=$(python3 -c 'import uuid; print(uuid.uuid4())')
 response_file=$(mktemp)
 trap 'rm -f "$response_file"' EXIT
 
@@ -41,7 +41,7 @@ python3 - "$properties" "${lease[0]}" "${lease[1]}" <<'PY'
 from pathlib import Path
 import sys
 path = Path(sys.argv[1])
-values = {'agentToken': sys.argv[2], 'serverUrl': sys.argv[3]}
+values = {'agentToken': sys.argv[2], 'serverUrl': sys.argv[3], 'agentName': 'railway-' + sys.argv[2][:8]}
 lines = path.read_text().splitlines() if path.exists() else []
 result = []
 seen = set()
