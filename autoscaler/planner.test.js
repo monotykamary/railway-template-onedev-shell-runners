@@ -11,7 +11,7 @@ test('desired replicas follows demand within limits', () => {
 
 test('offline agent token is reused', () => {
   const token = { id: 4, value: 'offline' };
-  assert.deepEqual(selectReusableToken({ agents: [{ online: false, token }], tokens: [token], leases: {}, now: 10 }), token);
+  assert.deepEqual(selectReusableToken({ agents: [{ online: false, tokenId: token.id }], tokens: [token], leases: {}, now: 10 }), token);
 });
 
 test('online and actively leased tokens are excluded', () => {
@@ -19,7 +19,7 @@ test('online and actively leased tokens are excluded', () => {
   const leased = { id: 2, value: 'leased' };
   const free = { id: 3, value: 'free' };
   assert.deepEqual(selectReusableToken({
-    agents: [{ online: true, token: online }], tokens: [online, leased, free],
+    agents: [{ online: true, tokenId: online.id }], tokens: [online, leased, free],
     leases: { runner: { tokenId: 2, expiresAt: 20 } }, now: 10,
   }), free);
 });

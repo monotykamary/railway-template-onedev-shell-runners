@@ -5,8 +5,8 @@ export function desiredReplicas(activeBuilds, minReplicas, maxReplicas) {
 
 export function selectReusableToken({ agents, tokens, leases, now }) {
   const leased = new Set(Object.values(leases).filter((lease) => lease.expiresAt > now).map((lease) => lease.tokenId));
-  const attached = new Set(agents.map((agent) => agent.token.id));
-  const offlineAgent = agents.find((agent) => !agent.online && !leased.has(agent.token.id));
-  if (offlineAgent) return offlineAgent.token;
+  const attached = new Set(agents.map((agent) => agent.tokenId));
+  const offlineAgent = agents.find((agent) => !agent.online && !leased.has(agent.tokenId));
+  if (offlineAgent) return tokens.find((token) => token.id === offlineAgent.tokenId) || null;
   return tokens.find((token) => !attached.has(token.id) && !leased.has(token.id)) || null;
 }

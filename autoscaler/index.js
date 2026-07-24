@@ -129,7 +129,7 @@ async function lease(leaseId) {
     oneDev('/~api/agents?offset=0&count=100'), oneDev('/~api/agent-tokens?offset=0&count=100'),
   ]);
   for (const [id, value] of Object.entries(state.leases)) {
-    if (agents.some((agent) => agent.online && agent.token.id === value.tokenId)) delete state.leases[id];
+    if (agents.some((agent) => agent.online && agent.tokenId === value.tokenId)) delete state.leases[id];
   }
   let token = selectReusableToken({ agents, tokens, leases: state.leases, now });
   if (!token) {
