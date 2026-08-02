@@ -9,7 +9,7 @@ OneDev with a trusted-build Remote Shell Executor, a reusable OneDev agent-token
 
 ## Services
 
-- **OneDev 16.3.0** with a persistent `/opt/onedev` volume
+- **OneDev 16.3.4** with a persistent `/opt/onedev` volume
 - **PostgreSQL 18** with persistent database storage
 - **Shell Runner** based on the official OneDev agent with Node.js, Python, Ruby, PostgreSQL client tools, SQLite, Yarn, and native build tooling
 - **Runner Autoscaler** that configures the Remote Shell Executor, leases unique agent tokens, tracks active builds, and optionally adjusts Railway replicas
