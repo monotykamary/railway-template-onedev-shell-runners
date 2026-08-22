@@ -1,1 +1,1 @@
-FROM docker.io/1dev/server:16.5.0@sha256:b9c6edcecd76e944193087b6f04a29bacfcfeebfce1af7a4cb1653a09291c66b
+FROM docker.io/1dev/server:16.5.6@sha256:adf91afcb6f695a44dcf6f6ddcf8eea8747e5413a148b080080b3c79075e7769
