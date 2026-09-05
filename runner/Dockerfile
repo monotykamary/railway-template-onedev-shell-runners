@@ -1,4 +1,4 @@
-FROM docker.io/1dev/agent@sha256:51cc86575e864f231df29467f042fdb6345a1d2b6fbcaa38ff852fb6b5997e75
+FROM docker.io/1dev/agent@sha256:af709472b0181dfa02acefa430900380a4a9c3efacb2ccc747db218044bae96c
 
 USER root
 ENV DEBIAN_FRONTEND=noninteractive
