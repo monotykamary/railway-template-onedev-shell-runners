@@ -18,7 +18,7 @@ The default deployment keeps one runner available without requiring Railway API 
 
 ## Dependencies for OneDev with Shell Runners Hosting
 
-- OneDev server and agent 16.5.11
+- OneDev server and agent 16.6.1
 - PostgreSQL 18
 - Persistent volumes for OneDev, PostgreSQL, and autoscaler leases
 - Node.js autoscaler service
